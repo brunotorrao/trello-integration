@@ -1,10 +1,9 @@
 const request = require('request');
-// const aws = require('aws-sdk');
 const TrelloService = {
 
-    createCard(key, token, listId, event) {
+    createCard(auth, listId, event) {
 
-        var options = {
+        let options = {
             method : 'POST',
             url : 'https://api.trello.com/1/cards',
             qs: {
@@ -13,8 +12,8 @@ const TrelloService = {
                     `pr_number:${event.pullRequestNumber} \n PR: ${event.pullRequestLink}`,
                 idList: listId,
                 keepFromSource: 'all',
-                key: key,
-                token: token
+                key: auth.key,
+                token: auth.token
             }
         };
 
@@ -22,6 +21,24 @@ const TrelloService = {
             if (error) throw new Error(error);
 
             console.log(body);
+        })
+    },
+
+    getCard(auth, cardId) {
+        let options = {
+            method : 'POST',
+            url : `https://api.trello.com/1/cards/${cardId}`,
+            qs: {
+                key: auth.key,
+                token: auth.token
+            }
+        };
+
+        request(options, function (error, response, body) {
+            if (error) throw new Error(error);
+
+            console.log(body);
+            return body;
         })
     }
 };

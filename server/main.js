@@ -2,9 +2,20 @@
 
 const trelloHandler = require('./handler/TrelloHandler.js');
 
-exports.handleEvent = function (event, context) {
-
+const setup = function() {
     process.env['PATH'] = process.env['PATH'] + ':' + process.env['LAMBDA_TASK_ROOT'];
-
-    trelloHandler.handleEvent(event)
 };
+
+exports.handleCardCreateEvent = function (event, context) {
+    setup();
+
+    trelloHandler.handleCardCreate(event);
+};
+
+exports.handleCardMovedEvent = function (event, context) {
+    setup();
+
+    trelloHandler.handleCardMoved(event);
+};
+
+exports.handleCardMovedEvent({}, {});
