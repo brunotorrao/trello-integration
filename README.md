@@ -1,2 +1,3 @@
 # trello-integration
-Project to deal with Trello Integration
+Lambda call with NodeJs to deal with trello integrations.
+
